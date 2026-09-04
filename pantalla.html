@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pantalla Receptora</title>
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <style>
+    body { font-family: sans-serif; text-align: center; padding-top: 100px; background: #222; color: white; transition: 0.5s; }
+    .foco { width: 140px; height: 140px; border-radius: 50%; background-color: #444; display: inline-block; margin-bottom: 20px; transition: 0.3s; }
+    .encendido { background-color: #ffeb3b; box-shadow: 0 0 60px #ffeb3b; }
+  </style>
+</head>
+<body>
+
+  <div id="foco" class="foco"></div>
+  <h1 id="texto">DESCONECTADO</h1>
+
+  <script>
+    const socket = io("https://servidor-socket-htsu.onrender.com");
+    const salaId = "SALA-1";
+
+    socket.emit('unirse_sala', salaId);
+
+    socket.on('estado_actualizado', (encendido) => {
+      const foco = document.getElementById('foco');
+      const texto = document.getElementById('texto');
+
+      if (encendido) {
+        foco.classList.add('encendido');
+        texto.innerText = "¡ENCENDIDO!";
+        texto.style.color = "#4caf50";
+      } else {
+        foco.classList.remove('encendido');
+        texto.innerText = "APAGADO";
+        texto.style.color = "#f44336";
+      }
+    });
+  </script>
+</body>
+</html>
