@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Control Móvil</title>
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <style>
+    body { font-family: sans-serif; text-align: center; background: #121212; color: white; padding-top: 80px; }
+    .switch { position: relative; display: inline-block; width: 90px; height: 50px; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #444; transition: .4s; border-radius: 34px; }
+    .slider:before { position: absolute; content: ""; height: 40px; width: 40px; left: 5px; bottom: 5px; background-color: white; transition: .4s; border-radius: 50%; }
+    input:checked + .slider { background-color: #2196F3; }
+    input:checked + .slider:before { transform: translateX(40px); }
+  </style>
+</head>
+<body>
+
+  <h2>INTERRUPTOR MÓVIL</h2>
+  <p>Mueve la palanca para encender/apagar la otra pantalla:</p>
+  <br>
+
+  <label class="switch">
+    <input type="checkbox" id="interruptor" onchange="enviarEstado()">
+    <span class="slider"></span>
+  </label>
+
+  <script>
+    const socket = io("https://servidor-socket-htsu.onrender.com");
+    const salaId = "SALA-1";
+
+    socket.emit('unirse_sala', salaId);
+
+    function enviarEstado() {
+      const estado = document.getElementById('interruptor').checked;
+      socket.emit('cambiar_interruptor', { salaId: salaId, estado: estado });
+    }
+  </script>
+</body>
+</html>
