@@ -54,9 +54,10 @@
     }
 
     function apagarReceptor() {
-      socket.emit('solicitar_apagado_telefono', { salaId: SALA_ID });
-      alert("Comando enviado al teléfono objetivo.");
+  socket.emit('solicitar_apagado_telefono', { salaId: SALA_ID });
+  console.log("Comando enviado al teléfono objetivo.");
     }
+  
   </script>
 </body>
 </html>
